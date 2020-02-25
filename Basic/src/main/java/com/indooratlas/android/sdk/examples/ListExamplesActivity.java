@@ -13,7 +13,10 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -70,6 +73,27 @@ public class ListExamplesActivity extends AppCompatActivity {
 
         ensurePermissions();
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_accuracy, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        final int id = item.getItemId();
+        switch (id) {
+            case R.id.mode_switch:
+                if(item.getTitle().equals("Normal mode")) {
+                    item.setTitle("Low power mode");
+                }else if(item.getTitle().equals("Low power mode")){
+                    item.setTitle("Normal mode");
+                }
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     /**
