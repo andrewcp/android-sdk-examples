@@ -6,6 +6,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -78,18 +79,27 @@ public class ListExamplesActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_accuracy, menu);
+        SharedPreferences sharedPreferences = getSharedPreferences("AccuracyMode", MODE_PRIVATE);
+        MenuItem item = menu.findItem(R.id.mode_switch);
+        String modeValue = sharedPreferences.getString("mode", "Normal mode");
+        item.setTitle(modeValue);
+
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         final int id = item.getItemId();
+        SharedPreferences sharedPreferences = getSharedPreferences("AccuracyMode", MODE_PRIVATE);
         switch (id) {
             case R.id.mode_switch:
                 if(item.getTitle().equals("Normal mode")) {
                     item.setTitle("Low power mode");
+                    sharedPreferences.edit().putString("mode", "Low power mode").apply();
+
                 }else if(item.getTitle().equals("Low power mode")){
                     item.setTitle("Normal mode");
+                    sharedPreferences.edit().putString("mode", "Normal mode").apply();
                 }
                 return true;
         }
