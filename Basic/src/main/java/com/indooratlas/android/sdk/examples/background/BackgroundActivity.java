@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -45,7 +46,8 @@ public class BackgroundActivity extends AppCompatActivity {
     }
 
     public void onStart(View v) {
-        mManager.requestLocationUpdates(IALocationRequest.create(), getPendingIntent());
+        SharedPreferences sharedPreferences = getSharedPreferences("AccuracyMode", MODE_PRIVATE);
+        mManager.requestLocationUpdates(IALocationRequest.create().setPriority(sharedPreferences.getInt("priority", 2)), getPendingIntent());
     }
 
     public void onStop(View v) {

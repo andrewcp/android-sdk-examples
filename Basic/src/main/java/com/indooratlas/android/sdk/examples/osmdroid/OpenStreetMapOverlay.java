@@ -2,6 +2,7 @@ package com.indooratlas.android.sdk.examples.osmdroid;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -176,7 +177,8 @@ public class OpenStreetMapOverlay extends Activity {
         // enable indoor-outdoor mode, required since SDK 3.2
         mIALocationManager.lockIndoors(false);
         // start receiving location updates & monitor region changes
-        mIALocationManager.requestLocationUpdates(IALocationRequest.create(), mListener);
+        SharedPreferences sharedPreferences = getSharedPreferences("AccuracyMode", MODE_PRIVATE);
+        mIALocationManager.requestLocationUpdates(IALocationRequest.create().setPriority(sharedPreferences.getInt("priority", 2)), mListener);
         mIALocationManager.registerRegionListener(mRegionListener);
     }
 

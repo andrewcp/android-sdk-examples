@@ -6,6 +6,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.PointF;
@@ -128,8 +129,9 @@ public class ImageViewActivity extends FragmentActivity {
     protected void onResume() {
         super.onResume();
         ensurePermissions();
+        SharedPreferences sharedPreferences = getSharedPreferences("AccuracyMode", MODE_PRIVATE);
         // starts receiving location updates
-        mIALocationManager.requestLocationUpdates(IALocationRequest.create(), mLocationListener);
+        mIALocationManager.requestLocationUpdates(IALocationRequest.create().setPriority(sharedPreferences.getInt("priority", 2)), mLocationListener);
         mIALocationManager.registerRegionListener(mRegionListener);
         IAOrientationRequest orientationRequest = new IAOrientationRequest(10f, 10f);
         mIALocationManager.registerOrientationListener(orientationRequest, mOrientationListener);

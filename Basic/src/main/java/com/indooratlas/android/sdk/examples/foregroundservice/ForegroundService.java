@@ -7,6 +7,7 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -19,7 +20,6 @@ import android.widget.Toast;
 import com.indooratlas.android.sdk.IALocation;
 import com.indooratlas.android.sdk.IALocationManager;
 import com.indooratlas.android.sdk.IALocationRequest;
-import com.indooratlas.android.sdk.IARegion;
 import com.indooratlas.android.sdk.examples.R;
 import com.indooratlas.android.sdk.resources.IAFloorPlan;
 
@@ -140,7 +140,8 @@ public class ForegroundService extends Service {
             IALocationManager manager = IALocationManager.create(this);
             PendingIntent requestIntent = PendingIntent.getService(this, 0,
                     new Intent(this, ForegroundService.class), 0);
-            manager.requestLocationUpdates(IALocationRequest.create(), requestIntent);
+            SharedPreferences sharedPreferences = getSharedPreferences("AccuracyMode", MODE_PRIVATE);
+            manager.requestLocationUpdates(IALocationRequest.create().setPriority(sharedPreferences.getInt("priority", 2)), requestIntent);
             manager.destroy();
 
             Log.i(LOG_TAG, "Clicked Start");

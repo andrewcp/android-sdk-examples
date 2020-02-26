@@ -1,5 +1,6 @@
 package com.indooratlas.android.sdk.examples.regions;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
@@ -42,10 +43,10 @@ public class RegionsActivity extends FragmentActivity implements IALocationListe
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_regions);
-
+        SharedPreferences sharedPreferences = getSharedPreferences("AccuracyMode", MODE_PRIVATE);
         mManager = IALocationManager.create(this);
         mManager.registerRegionListener(this);
-        mManager.requestLocationUpdates(IALocationRequest.create(), this);
+        mManager.requestLocationUpdates(IALocationRequest.create().setPriority(sharedPreferences.getInt("priority", 2)), this);
 
         mUiVenue = (TextView) findViewById(R.id.text_view_venue);
         mUiVenueId = (TextView) findViewById(R.id.text_view_venue_id);

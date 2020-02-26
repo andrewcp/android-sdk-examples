@@ -1,5 +1,6 @@
 package com.indooratlas.android.sdk.examples.googlemapsindoor;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 
@@ -174,7 +175,8 @@ public class GoogleMapsIndoorActivity extends FragmentActivity implements
         super.onResume();
         // enable indoor-outdoor mode, required since SDK 3.2
         mIALocationManager.lockIndoors(false);
-        mIALocationManager.requestLocationUpdates(IALocationRequest.create(), this);
+        SharedPreferences sharedPreferences = getSharedPreferences("AccuracyMode", MODE_PRIVATE);
+        mIALocationManager.requestLocationUpdates(IALocationRequest.create().setPriority(sharedPreferences.getInt("priority", 2)), this);
         if (mMap != null) {
             mMap.setOnIndoorStateChangeListener(this);
         }

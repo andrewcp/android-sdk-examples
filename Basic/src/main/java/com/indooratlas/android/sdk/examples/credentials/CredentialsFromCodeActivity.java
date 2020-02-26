@@ -4,6 +4,7 @@
 package com.indooratlas.android.sdk.examples.credentials;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
@@ -56,7 +57,8 @@ public class CredentialsFromCodeActivity extends AppCompatActivity implements IA
     @Override
     protected void onResume() {
         super.onResume();
-        mLocationManager.requestLocationUpdates(IALocationRequest.create(), this);
+        SharedPreferences sharedPreferences = getSharedPreferences("AccuracyMode", MODE_PRIVATE);
+        mLocationManager.requestLocationUpdates(IALocationRequest.create().setPriority(sharedPreferences.getInt("priority", 2)), this);
     }
 
     @Override

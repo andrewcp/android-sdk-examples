@@ -1,6 +1,7 @@
 package com.indooratlas.android.sdk.examples.geofence;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
@@ -359,9 +360,10 @@ public class GeofenceMapsOverlayActivity extends FragmentActivity implements Loc
     @Override
     protected void onResume() {
         super.onResume();
+        SharedPreferences sharedPreferences = getSharedPreferences("AccuracyMode", MODE_PRIVATE);
 
         // start receiving location updates & monitor region changes
-        mIALocationManager.requestLocationUpdates(IALocationRequest.create(), mListener);
+        mIALocationManager.requestLocationUpdates(IALocationRequest.create().setPriority(sharedPreferences.getInt("priority", 2)), mListener);
         mIALocationManager.registerRegionListener(mRegionListener);
     }
 

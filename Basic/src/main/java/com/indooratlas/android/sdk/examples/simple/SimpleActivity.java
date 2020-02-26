@@ -3,6 +3,7 @@ package com.indooratlas.android.sdk.examples.simple;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
@@ -198,7 +199,8 @@ public class SimpleActivity extends AppCompatActivity
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         mRequestStartTime = SystemClock.elapsedRealtime();
-                        IALocationRequest request = IALocationRequest.create();
+                        SharedPreferences sharedPreferences = getSharedPreferences("AccuracyMode", MODE_PRIVATE);
+                        IALocationRequest request = IALocationRequest.create().setPriority(sharedPreferences.getInt("priority", 2));
 
                         String fastestIntervalInput = fastestInterval.getText()
                                 .toString();

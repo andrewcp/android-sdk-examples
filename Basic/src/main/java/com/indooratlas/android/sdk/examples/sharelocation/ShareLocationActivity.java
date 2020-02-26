@@ -2,8 +2,8 @@ package com.indooratlas.android.sdk.examples.sharelocation;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Looper;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -29,7 +29,6 @@ import com.indooratlas.android.sdk.examples.sharelocation.channel.LocationSource
 import com.indooratlas.android.sdk.examples.sharelocation.channel.pubnub.PubNubLocationChannelImpl;
 import com.indooratlas.android.sdk.examples.sharelocation.view.MultiLocationMapView;
 import com.indooratlas.android.sdk.examples.utils.ExampleUtils;
-import com.indooratlas.android.sdk.resources.IAFloorPlan;
 import com.indooratlas.android.sdk.resources.IALocationListenerSupport;
 
 /**
@@ -78,8 +77,9 @@ public class ShareLocationActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        SharedPreferences sharedPreferences = getSharedPreferences("AccuracyMode", MODE_PRIVATE);
         mLocationManager.registerRegionListener(mRegionChangeHandler);
-        mLocationManager.requestLocationUpdates(IALocationRequest.create(), mLocationChangeHandler);
+        mLocationManager.requestLocationUpdates(IALocationRequest.create().setPriority(sharedPreferences.getInt("priority", 2)), mLocationChangeHandler);
     }
 
     @Override

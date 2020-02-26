@@ -1,21 +1,18 @@
 package com.indooratlas.android.sdk.examples.lockfloor;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.indooratlas.android.sdk.IALocation;
 import com.indooratlas.android.sdk.IALocationListener;
@@ -64,9 +61,10 @@ public class LockFloorActivity extends AppCompatActivity
         // Register long click for sharing traceId
         ExampleUtils.shareTraceId(mLog, LockFloorActivity.this, mLocationManager);
 
-        mRequestStartTime = SystemClock.elapsedRealtime();
-        IALocationRequest request = IALocationRequest.create();
+        SharedPreferences sharedPreferences = getSharedPreferences("AccuracyMode", MODE_PRIVATE);
 
+        mRequestStartTime = SystemClock.elapsedRealtime();
+        IALocationRequest request = IALocationRequest.create().setPriority(sharedPreferences.getInt("priority", 2));
         mLocationManager.requestLocationUpdates(request, LockFloorActivity.this);
 
         log("requestLocationUpdates");

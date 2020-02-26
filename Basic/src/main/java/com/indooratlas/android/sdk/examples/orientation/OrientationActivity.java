@@ -1,5 +1,6 @@
 package com.indooratlas.android.sdk.examples.orientation;
 
+import android.content.SharedPreferences;
 import android.opengl.GLSurfaceView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -49,7 +50,8 @@ public class OrientationActivity extends AppCompatActivity implements IALocation
     @Override
     protected void onResume() {
         super.onResume();
-        mManager.requestLocationUpdates(IALocationRequest.create(), this);
+        SharedPreferences sharedPreferences = getSharedPreferences("AccuracyMode", MODE_PRIVATE);
+        mManager.requestLocationUpdates(IALocationRequest.create().setPriority(sharedPreferences.getInt("priority", 2)), this);
         // trigger heading and orientation updates when they have changed by 5 degrees
         mManager.registerOrientationListener(new IAOrientationRequest(5.0, 5.0), this);
     }

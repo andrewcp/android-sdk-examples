@@ -80,10 +80,14 @@ public class ListExamplesActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_accuracy, menu);
         SharedPreferences sharedPreferences = getSharedPreferences("AccuracyMode", MODE_PRIVATE);
-        MenuItem item = menu.findItem(R.id.mode_switch);
         String modeValue = sharedPreferences.getString("mode", "Normal mode");
+        if(modeValue.equals("Normal mode")){
+            sharedPreferences.edit().putInt("priority", 2).apply();
+        }else {
+            sharedPreferences.edit().putInt("priority", 1).apply();
+        }
+        MenuItem item = menu.findItem(R.id.mode_switch);
         item.setTitle(modeValue);
-
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -96,10 +100,11 @@ public class ListExamplesActivity extends AppCompatActivity {
                 if(item.getTitle().equals("Normal mode")) {
                     item.setTitle("Low power mode");
                     sharedPreferences.edit().putString("mode", "Low power mode").apply();
-
+                    sharedPreferences.edit().putInt("priority", 1).apply();
                 }else if(item.getTitle().equals("Low power mode")){
                     item.setTitle("Normal mode");
                     sharedPreferences.edit().putString("mode", "Normal mode").apply();
+                    sharedPreferences.edit().putInt("priority", 2).apply();
                 }
                 return true;
         }

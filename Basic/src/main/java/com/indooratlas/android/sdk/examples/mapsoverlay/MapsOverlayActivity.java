@@ -1,5 +1,6 @@
 package com.indooratlas.android.sdk.examples.mapsoverlay;
 
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
@@ -217,8 +218,8 @@ public class MapsOverlayActivity extends FragmentActivity implements LocationLis
 
         // enable indoor-outdoor mode, required since SDK 3.2
         mIALocationManager.lockIndoors(false);
-
-        IALocationRequest locReq = IALocationRequest.create();
+        SharedPreferences sharedPreferences = getSharedPreferences("AccuracyMode", MODE_PRIVATE);
+        IALocationRequest locReq = IALocationRequest.create().setPriority(sharedPreferences.getInt("priority", 2));
 
         // --- choose positioning mode
 

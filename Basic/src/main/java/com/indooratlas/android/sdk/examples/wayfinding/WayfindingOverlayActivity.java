@@ -1,5 +1,6 @@
 package com.indooratlas.android.sdk.examples.wayfinding;
 
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -226,9 +227,9 @@ public class WayfindingOverlayActivity extends FragmentActivity
     @Override
     protected void onResume() {
         super.onResume();
-
+        SharedPreferences sharedPreferences = getSharedPreferences("AccuracyMode", MODE_PRIVATE);
         // start receiving location updates & monitor region changes
-        mIALocationManager.requestLocationUpdates(IALocationRequest.create(), mListener);
+        mIALocationManager.requestLocationUpdates(IALocationRequest.create().setPriority(sharedPreferences.getInt("priority", 2)), mListener);
         mIALocationManager.registerRegionListener(mRegionListener);
         mIALocationManager.registerOrientationListener(
                 // update if heading changes by 1 degrees or more
